@@ -7,6 +7,8 @@ import Register from './pages/Register';
 import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import DepartmentDashboard from './pages/DepartmentDashboard';
+import Profile from './pages/Profile';
+import ManageCitizens from './pages/ManageCitizens';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -14,12 +16,12 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Public Home Page */}
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<UniversalLogin />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Protected Role Routes */}
+          {/* User Module */}
           <Route
             path="/dashboard"
             element={
@@ -28,6 +30,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Admin Module */}
           <Route
             path="/admin"
             element={
@@ -37,10 +41,30 @@ function App() {
             }
           />
           <Route
+            path="/admin/citizens"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <ManageCitizens />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Department Module */}
+          <Route
             path="/department"
             element={
               <ProtectedRoute allowedRoles={['department', 'admin']}>
                 <DepartmentDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Common Profile Page for All Authenticated Users */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute allowedRoles={['user', 'admin', 'department']}>
+                <Profile />
               </ProtectedRoute>
             }
           />

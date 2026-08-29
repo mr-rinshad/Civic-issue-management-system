@@ -1,110 +1,121 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import {
-  Shield,
-  MapPin,
-  Camera,
-  CheckCircle2,
-  Building2,
-  UserCheck,
-  Wrench,
-  ArrowRight,
-  AlertTriangle,
-  FileText,
-  Clock,
-  Sparkles,
-} from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { ArrowRight, UserPlus, LogIn, Sparkles, Activity } from 'lucide-react';
 
 const Home = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const getModuleRoute = (role) => {
+    if (role === 'admin') return '/admin';
+    if (role === 'department') return '/department';
+    return '/dashboard';
+  };
+
+  const getModuleNameOnly = (role) => {
+    if (role === 'admin') return 'Councillor Admin';
+    if (role === 'department') return `${user?.departmentName || 'Department'} Module`;
+    return 'Citizen Module';
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="h-screen w-screen overflow-hidden bg-[#050505] text-white flex flex-col justify-between relative selection:bg-[#CCFF00] selection:text-black">
+      {/* Background Glow Accents */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#CCFF00]/10 rounded-full blur-[140px] pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#FFFF00]/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+      {/* Top Horizontal Navbar (No Home button rendered on Home page) */}
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex-1 flex flex-col justify-center">
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-400/20 px-4 py-1.5 rounded-full text-xs font-semibold text-blue-300 mb-6">
-            <Sparkles className="w-4 h-4 text-blue-400" />
-            <span>Empowering Citizens & Local Municipal Governance</span>
+      {/* Hero Single Screen Content */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center my-auto py-4 z-10 overflow-hidden">
+        {/* Left Column */}
+        <div className="lg:col-span-6 flex flex-col justify-center space-y-5">
+          <div className="inline-flex items-center space-x-2 bg-[#CCFF00]/10 border border-[#CCFF00]/30 px-3.5 py-1.5 rounded-full text-xs font-bold text-[#CCFF00] w-fit shadow-[0_0_15px_rgba(204,255,0,0.2)]">
+            <Sparkles className="w-4 h-4 text-[#CCFF00] animate-pulse" />
+            <span className="tracking-wide">SMART CIVIC INFRASTRUCTURE</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight max-w-4xl mx-auto">
-            Smart Civic Issue <span className="bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">Reporting System</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight uppercase text-white">
+            FIX MY <span className="bg-gradient-to-r from-[#CCFF00] via-[#FFFF00] to-[#DFFF00] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(204,255,0,0.4)]">CITY</span>
           </h1>
 
-          <p className="mt-4 sm:mt-6 text-sm sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            A centralized civic management platform enabling citizens to report infrastructure hazards, garbage accumulation, broken streetlights, and water leaks directly to local councillor admins and municipal field departments.
+          <p className="text-xs sm:text-sm text-zinc-300 max-w-xl leading-relaxed">
+            Report infrastructure hazards, garbage accumulation, streetlight faults, and water leaks directly to councillor admins and municipal field operations.
           </p>
 
-          {/* Call to Action Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/register"
-              className="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl hover:shadow-blue-500/25 transition flex items-center justify-center text-sm"
-            >
-              <span>Register as Citizen</span>
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
+          {/* Active Logged-In Module Access */}
+          {user ? (
+            <div className="p-4 rounded-2xl bg-zinc-950/90 border border-[#CCFF00]/40 backdrop-blur-xl shadow-[0_0_25px_rgba(204,255,0,0.15)] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#CCFF00] block">
+                  Active Logged-In Account
+                </span>
+                <h3 className="text-sm font-extrabold text-white mt-0.5">
+                  Logged in as <span className="text-[#CCFF00]">{user.name}</span>
+                </h3>
+              </div>
+              <button
+                onClick={() => navigate(getModuleRoute(user.role))}
+                className="px-4 py-2.5 bg-gradient-to-r from-[#CCFF00] to-[#DFFF00] hover:from-[#FFFF00] hover:to-[#CCFF00] text-black font-black text-xs rounded-xl shadow-lg transition flex items-center shrink-0 uppercase tracking-wider"
+              >
+                <span>{getModuleNameOnly(user.role)}</span>
+                <ArrowRight className="w-4 h-4 ml-1.5" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+              <Link
+                to="/register"
+                className="w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-[#CCFF00] to-[#DFFF00] hover:from-[#FFFF00] hover:to-[#CCFF00] text-black font-black rounded-2xl shadow-[0_0_25px_rgba(204,255,0,0.35)] transition flex items-center justify-center text-xs tracking-wider uppercase"
+              >
+                <UserPlus className="w-4 h-4 mr-2" />
+                <span>Register Citizen</span>
+              </Link>
 
-            <Link
-              to="/login"
-              className="w-full sm:w-auto px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl border border-white/20 backdrop-blur-md transition flex items-center justify-center text-sm"
-            >
-              <span>Access System Portal</span>
-            </Link>
+              <Link
+                to="/login"
+                className="w-full sm:w-auto px-7 py-3.5 bg-zinc-900/80 hover:bg-zinc-800 text-white font-bold rounded-2xl border border-zinc-700 hover:border-[#CCFF00]/50 backdrop-blur-xl transition flex items-center justify-center text-xs tracking-wider uppercase"
+              >
+                <LogIn className="w-4 h-4 mr-2 text-[#CCFF00]" />
+                <span>System Login</span>
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* Right Column: AI Generated Hero Image */}
+        <div className="lg:col-span-6 flex items-center justify-center relative">
+          <div className="relative w-full max-w-lg aspect-video lg:aspect-4/3 rounded-3xl p-2 bg-gradient-to-tr from-[#CCFF00]/40 via-zinc-800/50 to-[#FFFF00]/30 backdrop-blur-2xl border border-[#CCFF00]/30 shadow-[0_0_40px_rgba(204,255,0,0.2)] overflow-hidden group">
+            <img
+              src="/civic_hero_glass.jpg"
+              alt="FixMyCity AI City Hologram"
+              className="w-full h-full object-cover rounded-2xl border border-zinc-800 group-hover:scale-102 transition duration-500"
+            />
+
+            <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/80 backdrop-blur-md border border-[#CCFF00]/30 flex items-center justify-between">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-6 h-6 rounded-md overflow-hidden border border-[#CCFF00]/50">
+                  <img src="/fixmycity_logo.jpg" alt="FixMyCity" className="w-full h-full object-cover" />
+                </div>
+                <span className="text-[11px] font-black text-white tracking-wide">
+                  FixMy<span className="text-[#CCFF00]">City</span> Platform
+                </span>
+              </div>
+              <span className="text-[10px] font-black text-black bg-[#CCFF00] px-2 py-0.5 rounded uppercase">
+                Active System
+              </span>
+            </div>
           </div>
         </div>
-      </section>
+      </main>
 
-      {/* Feature Highlights Grid */}
-      <section className="bg-slate-100 py-16 px-4 sm:px-6 lg:px-8 border-t border-slate-200">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-extrabold text-slate-900">Supported Civic Categories</h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-2 font-bold">
-                🕳️
-              </div>
-              <span className="text-xs font-bold text-slate-800">Potholes & Roads</span>
-            </div>
-
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-2 font-bold">
-                🗑️
-              </div>
-              <span className="text-xs font-bold text-slate-800">Garbage Accumulation</span>
-            </div>
-
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center mx-auto mb-2 font-bold">
-                💡
-              </div>
-              <span className="text-xs font-bold text-slate-800">Broken Streetlights</span>
-            </div>
-
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-2 font-bold">
-                💧
-              </div>
-              <span className="text-xs font-bold text-slate-800">Water Leaks</span>
-            </div>
-
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mx-auto mb-2 font-bold">
-                🏗️
-              </div>
-              <span className="text-xs font-bold text-slate-800">Infrastructure</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
+      {/* Footer Minimalist Strip */}
+      <footer className="py-3 bg-black/90 border-t border-zinc-900 text-center text-[11px] text-zinc-500 font-medium z-10">
+        FixMyCity © {new Date().getFullYear()} • Smart Municipal Infrastructure Platform
+      </footer>
     </div>
   );
 };

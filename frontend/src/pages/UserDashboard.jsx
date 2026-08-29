@@ -8,7 +8,6 @@ import ImageModal from '../components/ImageModal';
 import {
   PlusCircle,
   MapPin,
-  Upload,
   Image as ImageIcon,
   CheckCircle2,
   Clock,
@@ -166,76 +165,79 @@ const UserDashboard = () => {
     <SidebarLayout onOpenReportModal={() => setShowReportModal(true)}>
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Banner Section */}
-        <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="bg-gradient-to-r from-zinc-950 via-zinc-900 to-black rounded-3xl p-6 border border-[#CCFF00]/30 shadow-[0_0_30px_rgba(204,255,0,0.1)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold">Citizen Civic Dashboard</h1>
-            <p className="text-xs sm:text-sm text-blue-100 mt-1 max-w-2xl">
-              Report infrastructure hazards, garbage accumulation, or street faults in real-time and track resolution progress transparently.
+            <span className="text-[10px] uppercase font-black tracking-widest text-[#CCFF00] block mb-1">
+              Public Dashboard
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">Citizen Portal</h1>
+            <p className="text-xs sm:text-sm text-zinc-300 mt-1 max-w-2xl">
+              Report infrastructure hazards, garbage accumulation, or street faults in real-time and track resolution progress.
             </p>
           </div>
           <button
             onClick={() => setShowReportModal(true)}
-            className="px-5 py-3 bg-white text-blue-800 hover:bg-blue-50 font-bold rounded-xl shadow-md transition flex items-center shrink-0 text-sm"
+            className="px-5 py-3 bg-gradient-to-r from-[#CCFF00] to-[#DFFF00] hover:from-[#FFFF00] hover:to-[#CCFF00] text-black font-extrabold rounded-2xl shadow-[0_0_20px_rgba(204,255,0,0.3)] transition flex items-center shrink-0 text-xs uppercase tracking-wider"
           >
-            <PlusCircle className="w-5 h-5 mr-2 text-blue-600" />
+            <PlusCircle className="w-4 h-4 mr-2" />
             Report New Issue
           </button>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Filed</span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">{stats.total}</div>
+          <div className="bg-zinc-950/80 p-5 rounded-2xl border border-zinc-800 backdrop-blur-md">
+            <span className="text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider">Total Filed</span>
+            <div className="text-2xl sm:text-3xl font-black text-white mt-1">{stats.total}</div>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">Pending Physical Audit</span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1">{stats.pending}</div>
+          <div className="bg-zinc-950/80 p-5 rounded-2xl border border-[#FFFF00]/30 backdrop-blur-md">
+            <span className="text-[11px] font-extrabold text-[#FFFF00] uppercase tracking-wider">Pending Audit</span>
+            <div className="text-2xl sm:text-3xl font-black text-[#FFFF00] mt-1">{stats.pending}</div>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-xs font-bold text-cyan-600 uppercase tracking-wider">Action In Progress</span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-cyan-600 mt-1">{stats.inProgress}</div>
+          <div className="bg-zinc-950/80 p-5 rounded-2xl border border-[#DFFF00]/30 backdrop-blur-md">
+            <span className="text-[11px] font-extrabold text-[#DFFF00] uppercase tracking-wider">In Progress</span>
+            <div className="text-2xl sm:text-3xl font-black text-[#DFFF00] mt-1">{stats.inProgress}</div>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Resolved Issues</span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">{stats.resolved}</div>
+          <div className="bg-zinc-950/80 p-5 rounded-2xl border border-[#CCFF00]/30 backdrop-blur-md">
+            <span className="text-[11px] font-extrabold text-[#CCFF00] uppercase tracking-wider">Resolved</span>
+            <div className="text-2xl sm:text-3xl font-black text-[#CCFF00] mt-1">{stats.resolved}</div>
           </div>
         </div>
 
-        {/* Complaints Section Header & Filters */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-          <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center">
-              <FileText className="w-5 h-5 mr-2 text-blue-600" />
-              My Reported Civic Issues
+        {/* Complaints Section */}
+        <div className="bg-zinc-950/80 rounded-3xl border border-zinc-800 shadow-xl overflow-hidden backdrop-blur-2xl">
+          <div className="p-5 border-b border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <h2 className="text-base font-black text-white uppercase tracking-wider flex items-center">
+              <FileText className="w-5 h-5 mr-2 text-[#CCFF00]" />
+              My Reported Issues
             </h2>
 
             {/* Filter Tabs */}
-            <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600">
+            <div className="flex items-center space-x-1 bg-zinc-900 p-1 rounded-xl text-xs font-bold">
               <button
                 onClick={() => setFilter('all')}
-                className={`px-3 py-1.5 rounded-lg transition ${filter === 'all' ? 'bg-white text-blue-700 shadow-xs' : 'hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded-lg transition ${filter === 'all' ? 'bg-[#CCFF00] text-black' : 'text-zinc-400 hover:text-white'}`}
               >
                 All
               </button>
               <button
                 onClick={() => setFilter('pending')}
-                className={`px-3 py-1.5 rounded-lg transition ${filter === 'pending' ? 'bg-white text-amber-700 shadow-xs' : 'hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded-lg transition ${filter === 'pending' ? 'bg-[#FFFF00] text-black' : 'text-zinc-400 hover:text-white'}`}
               >
                 Pending
               </button>
               <button
                 onClick={() => setFilter('in_progress')}
-                className={`px-3 py-1.5 rounded-lg transition ${filter === 'in_progress' ? 'bg-white text-cyan-700 shadow-xs' : 'hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded-lg transition ${filter === 'in_progress' ? 'bg-[#DFFF00] text-black' : 'text-zinc-400 hover:text-white'}`}
               >
                 In Progress
               </button>
               <button
                 onClick={() => setFilter('resolved')}
-                className={`px-3 py-1.5 rounded-lg transition ${filter === 'resolved' ? 'bg-white text-emerald-700 shadow-xs' : 'hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded-lg transition ${filter === 'resolved' ? 'bg-[#CCFF00] text-black' : 'text-zinc-400 hover:text-white'}`}
               >
                 Resolved
               </button>
@@ -244,30 +246,27 @@ const UserDashboard = () => {
 
           {/* Complaints List */}
           {loading ? (
-            <div className="p-12 text-center text-slate-400 flex justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
+            <div className="p-12 text-center text-zinc-500">
+              <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#CCFF00] border-t-transparent mx-auto"></div>
             </div>
           ) : filteredComplaints.length === 0 ? (
-            <div className="p-12 text-center">
-              <AlertTriangle className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-              <p className="text-slate-600 font-medium">No complaints found in this view.</p>
-              <p className="text-xs text-slate-400 mt-1">Report a new issue using the button above.</p>
+            <div className="p-12 text-center text-zinc-500">
+              <AlertTriangle className="w-10 h-10 text-zinc-600 mx-auto mb-3" />
+              <p className="font-bold text-zinc-400">No complaints match this view filter.</p>
             </div>
           ) : (
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-zinc-900">
               {filteredComplaints.map((complaint) => (
                 <div
                   key={complaint._id}
-                  className="p-5 hover:bg-slate-50 transition flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                  className="p-5 hover:bg-zinc-900/50 transition flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
                 >
                   <div className="flex items-start space-x-4">
-                    {/* Thumbnail Image - Click opens Image Modal */}
                     <div
                       onClick={() =>
                         complaint.evidencePhotos?.[0] && setActiveImagePreview(complaint.evidencePhotos[0])
                       }
-                      className="w-14 h-14 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center cursor-pointer hover:opacity-80 transition"
-                      title="Click to view full photo"
+                      className="w-14 h-14 rounded-xl bg-zinc-900 border border-zinc-800 overflow-hidden shrink-0 flex items-center justify-center cursor-pointer hover:opacity-80 transition"
                     >
                       {complaint.evidencePhotos && complaint.evidencePhotos.length > 0 ? (
                         <img
@@ -276,37 +275,36 @@ const UserDashboard = () => {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <ImageIcon className="w-6 h-6 text-slate-400" />
+                        <ImageIcon className="w-6 h-6 text-zinc-600" />
                       )}
                     </div>
 
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-100">
+                        <span className="text-[11px] font-extrabold text-[#CCFF00] bg-[#CCFF00]/10 px-2.5 py-0.5 rounded border border-[#CCFF00]/30">
                           {complaint.category}
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-[11px] text-zinc-500">
                           {new Date(complaint.createdAt).toLocaleDateString()}
                         </span>
                       </div>
                       <h3
                         onClick={() => setSelectedComplaint(complaint)}
-                        className="font-bold text-slate-900 text-base mt-1 hover:text-blue-600 transition cursor-pointer"
+                        className="font-bold text-white text-base mt-1 hover:text-[#CCFF00] transition cursor-pointer"
                       >
                         {complaint.title}
                       </h3>
-                      {/* Location with Google Maps link */}
                       <div className="mt-1">
                         <GoogleMapLink location={complaint.location} className="text-xs" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end border-t md:border-0 pt-3 md:pt-0 border-slate-100">
+                  <div className="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end border-t md:border-0 pt-3 md:pt-0 border-zinc-900">
                     <StatusBadge status={complaint.status} />
                     <button
                       onClick={() => setSelectedComplaint(complaint)}
-                      className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100"
+                      className="text-xs font-extrabold text-black bg-[#CCFF00] hover:bg-[#FFFF00] px-3.5 py-1.5 rounded-xl transition shadow-[0_0_10px_rgba(204,255,0,0.2)]"
                     >
                       Track Progress
                     </button>
@@ -320,40 +318,39 @@ const UserDashboard = () => {
 
       {/* REPORT NEW ISSUE MODAL */}
       {showReportModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-zinc-950 rounded-3xl max-w-xl w-full p-6 border border-[#CCFF00]/30 shadow-2xl relative my-8 text-white">
             <button
               onClick={() => setShowReportModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 bg-slate-100 rounded-full"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white p-1 bg-zinc-900 rounded-full"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h2 className="text-xl font-extrabold text-slate-900 mb-1 flex items-center">
-              <PlusCircle className="w-6 h-6 mr-2 text-blue-600" />
+            <h2 className="text-xl font-black uppercase text-white mb-1 flex items-center">
+              <PlusCircle className="w-6 h-6 mr-2 text-[#CCFF00]" />
               Report a Civic Issue
             </h2>
-            <p className="text-xs text-slate-500 mb-5">
-              Fill in the issue details, attach evidence photos, and share location for physical inspection.
+            <p className="text-xs text-zinc-400 mb-5">
+              Provide issue details, evidence photos, and location coordinates for ground verification.
             </p>
 
             {formError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 text-red-300 text-xs rounded-xl">
                 {formError}
               </div>
             )}
 
             <form onSubmit={handleReportSubmit} className="space-y-4">
-              {/* Category & Title */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-1">
                     Category *
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                   >
                     <option value="Potholes">Potholes & Broken Roads</option>
                     <option value="Garbage Accumulation">Garbage & Waste Accumulation</option>
@@ -365,13 +362,13 @@ const UserDashboard = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-1">
                     Priority Level
                   </label>
                   <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                   >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -382,7 +379,7 @@ const UserDashboard = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-1">
                   Issue Title *
                 </label>
                 <input
@@ -390,13 +387,13 @@ const UserDashboard = () => {
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g. Deep pothole near Central School main gate"
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="e.g. Deep pothole near main gate"
+                  className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-1">
                   Detailed Description *
                 </label>
                 <textarea
@@ -404,22 +401,21 @@ const UserDashboard = () => {
                   required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Describe the issue size, landmark, or potential hazard..."
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="Describe the issue size, landmark, or hazard..."
+                  className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                 ></textarea>
               </div>
 
-              {/* Location with Geolocation Button */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Location / Landmark Address *
+                  <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider">
+                    Location Address *
                   </label>
                   <button
                     type="button"
                     onClick={handleGetLocation}
                     disabled={isLocating}
-                    className="text-xs text-blue-600 hover:text-blue-800 font-bold flex items-center"
+                    className="text-xs text-[#CCFF00] font-bold flex items-center hover:underline"
                   >
                     <Navigation className="w-3.5 h-3.5 mr-1" />
                     {isLocating ? 'Locating...' : 'Get GPS Location'}
@@ -430,58 +426,38 @@ const UserDashboard = () => {
                   required
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Street name, landmark, ward number..."
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="Street name, landmark..."
+                  className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                 />
-                {latitude && longitude && (
-                  <p className="text-[11px] text-emerald-600 font-medium mt-1">
-                    ✓ GPS Coordinates Captured: Lat {latitude.toFixed(4)}, Lng {longitude.toFixed(4)}
-                  </p>
-                )}
               </div>
 
-              {/* Photo Upload with Preview */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Upload Evidence Photos (Max 5)
+                <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-1">
+                  Upload Evidence Photos
                 </label>
                 <input
                   type="file"
                   multiple
                   accept="image/*"
                   onChange={handleFileChange}
-                  className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  className="w-full text-xs text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-extrabold file:bg-[#CCFF00] file:text-black hover:file:bg-[#FFFF00]"
                 />
-                {previewUrls.length > 0 && (
-                  <div className="flex gap-2 mt-3 overflow-x-auto py-1">
-                    {previewUrls.map((url, index) => (
-                      <img
-                        key={index}
-                        src={url}
-                        alt="Preview"
-                        className="w-16 h-16 object-cover rounded-xl border border-slate-200 shrink-0 cursor-pointer hover:opacity-80"
-                        onClick={() => setActiveImagePreview(url)}
-                      />
-                    ))}
-                  </div>
-                )}
               </div>
 
-              {/* Submit Buttons */}
-              <div className="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
+              <div className="flex items-center justify-end space-x-3 pt-4 border-t border-zinc-900">
                 <button
                   type="button"
                   onClick={() => setShowReportModal(false)}
-                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl"
+                  className="px-4 py-2 text-xs font-bold text-zinc-400 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md disabled:opacity-50"
+                  className="px-5 py-2.5 text-xs font-black text-black bg-[#CCFF00] hover:bg-[#FFFF00] rounded-xl shadow-md"
                 >
-                  {isSubmitting ? 'Submitting...' : 'Submit Civic Complaint'}
+                  {isSubmitting ? 'Submitting...' : 'Submit Complaint'}
                 </button>
               </div>
             </form>
@@ -489,49 +465,37 @@ const UserDashboard = () => {
         </div>
       )}
 
-      {/* COMPLAINT DETAIL & TRACKER MODAL */}
+      {/* TRACKER & DETAIL MODAL */}
       {selectedComplaint && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative my-8">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-zinc-950 rounded-3xl max-w-2xl w-full p-6 border border-[#CCFF00]/30 shadow-2xl relative my-8 text-white">
             <button
               onClick={() => setSelectedComplaint(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 bg-slate-100 rounded-full"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white p-1 bg-zinc-900 rounded-full"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="flex items-center space-x-2 mb-2">
-              <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-100">
+              <span className="text-[11px] font-extrabold text-[#CCFF00] bg-[#CCFF00]/10 px-2.5 py-0.5 rounded border border-[#CCFF00]/30">
                 {selectedComplaint.category}
               </span>
               <StatusBadge status={selectedComplaint.status} />
             </div>
 
-            <h2 className="text-xl font-extrabold text-slate-900 mb-2">
-              {selectedComplaint.title}
-            </h2>
-
-            <p className="text-xs text-slate-600 mb-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <h2 className="text-xl font-extrabold text-white mb-2">{selectedComplaint.title}</h2>
+            <p className="text-xs text-zinc-300 mb-4 bg-zinc-900 p-3 rounded-xl border border-zinc-800">
               {selectedComplaint.description}
             </p>
 
-            <div className="text-xs text-slate-600 space-y-2 mb-6">
-              <div className="flex items-center">
-                <span className="font-bold text-slate-700 mr-2">Location (Google Maps):</span>
-                <GoogleMapLink location={selectedComplaint.location} />
-              </div>
-              {selectedComplaint.assignedDepartmentName && (
-                <p className="flex items-center text-purple-700">
-                  <Wrench className="w-4 h-4 mr-1 text-purple-500" />
-                  <span className="font-bold mr-1">Assigned Department:</span> {selectedComplaint.assignedDepartmentName}
-                </p>
-              )}
+            <div className="my-3 text-xs text-zinc-400">
+              <span className="font-bold text-white mr-2">Location:</span>
+              <GoogleMapLink location={selectedComplaint.location} />
             </div>
 
-            {/* Evidence Photos - Click to enlarge in ImageModal */}
             {selectedComplaint.evidencePhotos && selectedComplaint.evidencePhotos.length > 0 && (
               <div className="mb-6">
-                <h4 className="text-xs font-bold text-slate-700 uppercase mb-2">Evidence Photos (Click to Enlarge):</h4>
+                <h4 className="text-xs font-extrabold text-[#CCFF00] uppercase mb-2">Evidence Photos (Click to Enlarge):</h4>
                 <div className="flex gap-2 overflow-x-auto">
                   {selectedComplaint.evidencePhotos.map((photo, i) => (
                     <img
@@ -539,45 +503,19 @@ const UserDashboard = () => {
                       src={photo}
                       alt="Evidence"
                       onClick={() => setActiveImagePreview(photo)}
-                      className="w-24 h-24 object-cover rounded-xl border border-slate-200 cursor-pointer hover:opacity-80 transition"
+                      className="w-20 h-20 object-cover rounded-xl border border-zinc-800 cursor-pointer hover:opacity-80"
                     />
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Timeline Progress */}
             <Timeline complaint={selectedComplaint} />
-
-            {/* Completion Photo Proof if Resolved */}
-            {selectedComplaint.completionPhoto && (
-              <div className="mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
-                <h4 className="text-xs font-bold text-emerald-800 uppercase mb-2 flex items-center">
-                  <CheckCircle2 className="w-4 h-4 mr-1 text-emerald-600" />
-                  Work Completion Evidence Photo (Click to Enlarge)
-                </h4>
-                <img
-                  src={selectedComplaint.completionPhoto}
-                  alt="Work Completion"
-                  onClick={() => setActiveImagePreview(selectedComplaint.completionPhoto)}
-                  className="w-full max-h-56 object-cover rounded-xl border border-emerald-300 mt-1 cursor-pointer hover:opacity-90 transition"
-                />
-                {selectedComplaint.progressNotes && (
-                  <p className="text-xs text-emerald-900 mt-2 font-medium">
-                    Department Closing Note: "{selectedComplaint.progressNotes}"
-                  </p>
-                )}
-              </div>
-            )}
           </div>
         </div>
       )}
 
-      {/* Full Resolution Image Lightbox Modal */}
-      <ImageModal
-        imageUrl={activeImagePreview}
-        onClose={() => setActiveImagePreview(null)}
-      />
+      <ImageModal imageUrl={activeImagePreview} onClose={() => setActiveImagePreview(null)} />
     </SidebarLayout>
   );
 };

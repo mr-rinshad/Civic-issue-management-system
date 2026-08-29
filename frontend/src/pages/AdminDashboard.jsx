@@ -20,7 +20,6 @@ import {
   Filter,
   X,
   MapPin,
-  Send,
   Image as ImageIcon,
 } from 'lucide-react';
 
@@ -30,7 +29,7 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [activeTab, setActiveTab] = useState('complaints'); // 'complaints' | 'departments'
+  const [activeTab, setActiveTab] = useState('complaints');
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -41,16 +40,16 @@ const AdminDashboard = () => {
   const [detailModalComplaint, setDetailModalComplaint] = useState(null);
   const [activeImagePreview, setActiveImagePreview] = useState(null);
 
-  // Form states for Verify (Accept/Reject)
-  const [verifyAction, setVerifyAction] = useState('accept'); // 'accept' | 'reject'
+  // Verify form
+  const [verifyAction, setVerifyAction] = useState('accept');
   const [rejectionReason, setRejectionReason] = useState('');
   const [verificationNotes, setVerificationNotes] = useState('');
 
-  // Form states for Assigning Dept
+  // Assign form
   const [selectedDeptId, setSelectedDeptId] = useState('');
   const [assignPriority, setAssignPriority] = useState('Medium');
 
-  // Form states for Creating New Dept
+  // Create Dept form
   const [deptName, setDeptName] = useState('');
   const [deptCode, setDeptCode] = useState('');
   const [deptDesc, setDeptDesc] = useState('');
@@ -82,7 +81,6 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
-  // Handle Accept or Reject
   const handleVerifySubmit = async (e) => {
     e.preventDefault();
     setModalError('');
@@ -113,7 +111,6 @@ const AdminDashboard = () => {
     }
   };
 
-  // Handle Assign to Dept
   const handleAssignSubmit = async (e) => {
     e.preventDefault();
     setModalError('');
@@ -142,7 +139,6 @@ const AdminDashboard = () => {
     }
   };
 
-  // Handle Create Dept
   const handleCreateDept = async (e) => {
     e.preventDefault();
     setModalError('');
@@ -191,16 +187,14 @@ const AdminDashboard = () => {
     <SidebarLayout>
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Admin Header Banner */}
-        <div className="bg-gradient-to-r from-purple-800 via-indigo-900 to-slate-900 rounded-2xl p-6 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="bg-gradient-to-r from-zinc-950 via-zinc-900 to-black rounded-3xl p-6 border border-[#CCFF00]/30 shadow-[0_0_30px_rgba(204,255,0,0.1)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center space-x-2 mb-1">
-              <span className="bg-purple-500/20 border border-purple-400/30 text-purple-200 text-xs px-3 py-0.5 rounded-full font-bold uppercase tracking-wider">
-                Councillor Control Center
-              </span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold">Municipal Admin Dashboard</h1>
-            <p className="text-xs sm:text-sm text-purple-200 mt-1 max-w-2xl">
-              Inspect reported issues, verify ground reality, reject invalid entries, and dispatch authorized municipal departments.
+            <span className="text-[10px] uppercase font-black tracking-widest text-[#CCFF00] block mb-1">
+              Councillor Administration
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">Admin Dashboard</h1>
+            <p className="text-xs sm:text-sm text-zinc-300 mt-1 max-w-2xl">
+              Inspect reported issues, verify ground reality, reject invalid entries, and dispatch authorized departments.
             </p>
           </div>
 
@@ -210,10 +204,10 @@ const AdminDashboard = () => {
                 setActiveTab('departments');
                 setShowAddDeptModal(true);
               }}
-              className="px-4 py-2.5 bg-white text-purple-900 hover:bg-purple-50 font-bold rounded-xl shadow-md transition flex items-center text-xs sm:text-sm"
+              className="px-4 py-2.5 bg-gradient-to-r from-[#CCFF00] to-[#DFFF00] hover:from-[#FFFF00] hover:to-[#CCFF00] text-black font-extrabold rounded-xl shadow-md transition flex items-center text-xs uppercase"
             >
-              <PlusCircle className="w-4 h-4 mr-1.5 text-purple-600" />
-              Add New Dept
+              <PlusCircle className="w-4 h-4 mr-1.5" />
+              Add Department
             </button>
           </div>
         </div>
@@ -221,84 +215,84 @@ const AdminDashboard = () => {
         {/* Analytics Grid */}
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-500 uppercase">Total Reported</span>
-              <div className="text-xl font-extrabold text-slate-900 mt-1">{stats.totalComplaints}</div>
+            <div className="bg-zinc-950/80 p-4 rounded-xl border border-zinc-800 backdrop-blur-md">
+              <span className="text-[10px] font-extrabold text-zinc-400 uppercase">Total</span>
+              <div className="text-xl font-black text-white mt-1">{stats.totalComplaints}</div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <span className="text-[11px] font-bold text-amber-600 uppercase">Pending Audit</span>
-              <div className="text-xl font-extrabold text-amber-600 mt-1">{stats.pendingVerification}</div>
+            <div className="bg-zinc-950/80 p-4 rounded-xl border border-[#FFFF00]/30 backdrop-blur-md">
+              <span className="text-[10px] font-extrabold text-[#FFFF00] uppercase">Pending Audit</span>
+              <div className="text-xl font-black text-[#FFFF00] mt-1">{stats.pendingVerification}</div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <span className="text-[11px] font-bold text-blue-600 uppercase">Accepted</span>
-              <div className="text-xl font-extrabold text-blue-600 mt-1">{stats.accepted}</div>
+            <div className="bg-zinc-950/80 p-4 rounded-xl border border-[#DFFF00]/30 backdrop-blur-md">
+              <span className="text-[10px] font-extrabold text-[#DFFF00] uppercase">Accepted</span>
+              <div className="text-xl font-black text-[#DFFF00] mt-1">{stats.accepted}</div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <span className="text-[11px] font-bold text-purple-600 uppercase">Assigned</span>
-              <div className="text-xl font-extrabold text-purple-600 mt-1">{stats.assigned}</div>
+            <div className="bg-zinc-950/80 p-4 rounded-xl border border-[#CCFF00]/30 backdrop-blur-md">
+              <span className="text-[10px] font-extrabold text-[#CCFF00] uppercase">Assigned</span>
+              <div className="text-xl font-black text-[#CCFF00] mt-1">{stats.assigned}</div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <span className="text-[11px] font-bold text-cyan-600 uppercase">In Progress</span>
-              <div className="text-xl font-extrabold text-cyan-600 mt-1">{stats.inProgress}</div>
+            <div className="bg-zinc-950/80 p-4 rounded-xl border border-[#FFFF00]/30 backdrop-blur-md">
+              <span className="text-[10px] font-extrabold text-[#FFFF00] uppercase">In Progress</span>
+              <div className="text-xl font-black text-[#FFFF00] mt-1">{stats.inProgress}</div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <span className="text-[11px] font-bold text-emerald-600 uppercase">Resolved</span>
-              <div className="text-xl font-extrabold text-emerald-600 mt-1">{stats.resolved}</div>
+            <div className="bg-zinc-950/80 p-4 rounded-xl border border-[#CCFF00]/40 backdrop-blur-md">
+              <span className="text-[10px] font-extrabold text-[#CCFF00] uppercase">Resolved</span>
+              <div className="text-xl font-black text-[#CCFF00] mt-1">{stats.resolved}</div>
             </div>
           </div>
         )}
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-200">
+        <div className="flex border-b border-zinc-900">
           <button
             onClick={() => setActiveTab('complaints')}
-            className={`py-3 px-5 font-bold text-sm border-b-2 transition ${
+            className={`py-3 px-5 font-black text-xs uppercase tracking-wider border-b-2 transition ${
               activeTab === 'complaints'
-                ? 'border-purple-600 text-purple-800'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-[#CCFF00] text-[#CCFF00]'
+                : 'border-transparent text-zinc-500 hover:text-white'
             }`}
           >
             All Civic Complaints ({complaints.length})
           </button>
           <button
             onClick={() => setActiveTab('departments')}
-            className={`py-3 px-5 font-bold text-sm border-b-2 transition ${
+            className={`py-3 px-5 font-black text-xs uppercase tracking-wider border-b-2 transition ${
               activeTab === 'departments'
-                ? 'border-purple-600 text-purple-800'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-[#CCFF00] text-[#CCFF00]'
+                : 'border-transparent text-zinc-500 hover:text-white'
             }`}
           >
-            Municipal Departments ({departments.length})
+            Departments ({departments.length})
           </button>
         </div>
 
         {/* COMPLAINTS TAB */}
         {activeTab === 'complaints' && (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-            {/* Search & Filter Header */}
-            <div className="p-4 border-b border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="bg-zinc-950/80 rounded-3xl border border-zinc-800 shadow-xl overflow-hidden backdrop-blur-2xl">
+            {/* Search Header */}
+            <div className="p-4 border-b border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="relative w-full sm:w-72">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-3" />
                 <input
                   type="text"
                   placeholder="Search title, location..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-purple-500"
+                  className="w-full pl-9 pr-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                 />
               </div>
 
               <div className="flex items-center space-x-2 overflow-x-auto w-full sm:w-auto">
-                <Filter className="w-4 h-4 text-slate-400 shrink-0" />
+                <Filter className="w-4 h-4 text-zinc-500 shrink-0" />
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="py-1.5 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:ring-2 focus:ring-purple-500"
+                  className="py-1.5 px-3 bg-zinc-900 border border-zinc-800 rounded-xl text-xs font-bold text-white focus:ring-2 focus:ring-[#CCFF00]"
                 >
                   <option value="all">All Statuses</option>
                   <option value="pending_verification">Pending Physical Audit</option>
@@ -311,78 +305,79 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {/* Complaints Table */}
+            {/* Table */}
             {loading ? (
-              <div className="p-12 text-center text-slate-400">
-                <div className="animate-spin rounded-full h-8 w-8 border-4 border-purple-600 border-t-transparent mx-auto"></div>
+              <div className="p-12 text-center text-zinc-500">
+                <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#CCFF00] border-t-transparent mx-auto"></div>
               </div>
             ) : filteredComplaints.length === 0 ? (
-              <div className="p-12 text-center text-slate-500 text-sm">
-                No civic complaints match the current filter.
+              <div className="p-12 text-center text-zinc-500 text-xs">
+                No civic complaints match the selected filter.
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs text-slate-600">
-                  <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200">
+                <table className="w-full text-left text-xs text-zinc-300">
+                  <thead className="bg-zinc-900/80 text-zinc-400 font-extrabold uppercase tracking-wider text-[10px] border-b border-zinc-800">
                     <tr>
                       <th className="p-4">Evidence</th>
                       <th className="p-4">Issue Details</th>
                       <th className="p-4">Reported By</th>
-                      <th className="p-4">Google Maps Location</th>
+                      <th className="p-4">Location</th>
                       <th className="p-4">Status</th>
-                      <th className="p-4">Department</th>
+                      <th className="p-4">Completion Proof</th>
                       <th className="p-4 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-zinc-900">
                     {filteredComplaints.map((c) => (
-                      <tr key={c._id} className="hover:bg-slate-50 transition">
+                      <tr key={c._id} className="hover:bg-zinc-900/50 transition">
                         <td className="p-4">
                           <div
                             onClick={() => c.evidencePhotos?.[0] && setActiveImagePreview(c.evidencePhotos[0])}
-                            className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center cursor-pointer hover:opacity-80 transition"
-                            title="Click to expand photo"
+                            className="w-12 h-12 rounded-lg bg-zinc-900 border border-zinc-800 overflow-hidden shrink-0 flex items-center justify-center cursor-pointer hover:opacity-80 transition"
                           >
                             {c.evidencePhotos && c.evidencePhotos.length > 0 ? (
                               <img src={c.evidencePhotos[0]} alt="Evidence" className="w-full h-full object-cover" />
                             ) : (
-                              <ImageIcon className="w-5 h-5 text-slate-400" />
+                              <ImageIcon className="w-5 h-5 text-zinc-600" />
                             )}
                           </div>
                         </td>
                         <td className="p-4">
                           <span
                             onClick={() => setDetailModalComplaint(c)}
-                            className="font-bold text-slate-900 text-sm block hover:text-purple-600 cursor-pointer"
+                            className="font-bold text-white text-sm block hover:text-[#CCFF00] cursor-pointer"
                           >
                             {c.title}
                           </span>
-                          <span className="text-[11px] text-purple-700 bg-purple-50 px-2 py-0.5 rounded font-semibold border border-purple-100">
+                          <span className="text-[10px] font-black text-[#CCFF00] bg-[#CCFF00]/10 px-2 py-0.5 rounded border border-[#CCFF00]/30">
                             {c.category}
                           </span>
                         </td>
                         <td className="p-4">
-                          <span className="font-semibold text-slate-800 block">{c.user?.name || 'Citizen'}</span>
-                          <span className="text-[11px] text-slate-400">{c.user?.phone || c.user?.email}</span>
+                          <span className="font-bold text-white block">{c.user?.name || 'Citizen'}</span>
+                          <span className="text-[10px] text-zinc-500">{c.user?.phone || c.user?.email}</span>
                         </td>
                         <td className="p-4">
-                          {/* Google Maps Clickable Link */}
                           <GoogleMapLink location={c.location} />
                         </td>
                         <td className="p-4">
                           <StatusBadge status={c.status} />
                         </td>
                         <td className="p-4">
-                          {c.assignedDepartmentName ? (
-                            <span className="font-semibold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-100">
-                              {c.assignedDepartmentName}
-                            </span>
+                          {c.completionPhoto ? (
+                            <button
+                              onClick={() => setActiveImagePreview(c.completionPhoto)}
+                              className="px-2.5 py-1 bg-[#CCFF00]/20 text-[#CCFF00] font-extrabold border border-[#CCFF00]/40 rounded-lg hover:bg-[#CCFF00]/30 transition text-[11px] flex items-center"
+                            >
+                              <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
+                              View Work Photo
+                            </button>
                           ) : (
-                            <span className="text-slate-400 italic">Not Assigned</span>
+                            <span className="text-zinc-600 italic">Pending Work</span>
                           )}
                         </td>
                         <td className="p-4 text-right space-x-2">
-                          {/* Physical Verification Action Button */}
                           {c.status === 'pending_verification' && (
                             <button
                               onClick={() => {
@@ -390,20 +385,19 @@ const AdminDashboard = () => {
                                 setVerifyAction('accept');
                                 setModalError('');
                               }}
-                              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-xs transition"
+                              className="px-3 py-1.5 bg-[#CCFF00] hover:bg-[#FFFF00] text-black font-black rounded-lg transition"
                             >
                               Verify Issue
                             </button>
                           )}
 
-                          {/* Assign to Department Action Button */}
                           {c.status === 'accepted' && (
                             <button
                               onClick={() => {
                                 setAssignModalComplaint(c);
                                 setModalError('');
                               }}
-                              className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg shadow-xs transition"
+                              className="px-3 py-1.5 bg-[#DFFF00] hover:bg-[#FFFF00] text-black font-black rounded-lg transition"
                             >
                               Assign Dept
                             </button>
@@ -411,7 +405,7 @@ const AdminDashboard = () => {
 
                           <button
                             onClick={() => setDetailModalComplaint(c)}
-                            className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition"
+                            className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-lg border border-zinc-800"
                           >
                             Details
                           </button>
@@ -427,17 +421,15 @@ const AdminDashboard = () => {
 
         {/* DEPARTMENTS TAB */}
         {activeTab === 'departments' && (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
+          <div className="bg-zinc-950/80 rounded-3xl border border-zinc-800 p-6 backdrop-blur-2xl">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="text-lg font-bold text-slate-900">Registered Municipal Departments</h3>
-                <p className="text-xs text-slate-500">
-                  Government departments authorized to resolve assigned civic complaints.
-                </p>
+                <h3 className="text-lg font-black text-white">Registered Departments</h3>
+                <p className="text-xs text-zinc-400">Authorized municipal departments for resolving assigned tasks.</p>
               </div>
               <button
                 onClick={() => setShowAddDeptModal(true)}
-                className="px-4 py-2 bg-purple-700 text-white font-bold text-xs rounded-xl hover:bg-purple-800 shadow-xs transition"
+                className="px-4 py-2 bg-[#CCFF00] text-black font-black text-xs rounded-xl hover:bg-[#FFFF00] transition"
               >
                 + Add Department
               </button>
@@ -445,14 +437,14 @@ const AdminDashboard = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {departments.map((d) => (
-                <div key={d._id} className="p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-start space-x-4">
-                  <div className="w-12 h-12 rounded-xl bg-purple-100 border border-purple-200 flex items-center justify-center text-purple-700 font-bold shrink-0">
+                <div key={d._id} className="p-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 flex items-start space-x-4">
+                  <div className="w-12 h-12 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/30 flex items-center justify-center text-[#CCFF00] font-black shrink-0">
                     {d.code}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900">{d.name}</h4>
-                    <p className="text-xs text-slate-600 mt-1">{d.description}</p>
-                    <p className="text-xs text-purple-700 font-semibold mt-2">
+                    <h4 className="font-bold text-white">{d.name}</h4>
+                    <p className="text-xs text-zinc-400 mt-1">{d.description}</p>
+                    <p className="text-xs text-[#CCFF00] font-semibold mt-2">
                       Official Email: {d.officialUser?.email || 'N/A'}
                     </p>
                   </div>
@@ -463,60 +455,57 @@ const AdminDashboard = () => {
         )}
       </div>
 
-      {/* VERIFY COMPLAINT MODAL */}
+      {/* VERIFY MODAL */}
       {verifyModalComplaint && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-zinc-950 rounded-3xl max-w-lg w-full p-6 border border-[#CCFF00]/30 shadow-2xl relative text-white">
             <button
               onClick={() => setVerifyModalComplaint(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 bg-slate-100 rounded-full"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white p-1 bg-zinc-900 rounded-full"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-lg font-extrabold text-slate-900 mb-1 flex items-center">
-              <Shield className="w-5 h-5 mr-2 text-purple-600" />
-              Physical Audit & Verification
-            </h3>
-            <p className="text-xs text-slate-500 mb-4">
-              Issue: <span className="font-bold text-slate-800">{verifyModalComplaint.title}</span>
+            <h3 className="text-lg font-black text-white mb-1 uppercase">Physical Verification Audit</h3>
+            <p className="text-xs text-zinc-400 mb-4">
+              Issue: <span className="font-bold text-white">{verifyModalComplaint.title}</span>
             </p>
 
             {modalError && (
-              <div className="mb-3 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+              <div className="mb-3 p-3 bg-red-500/10 border border-red-500/30 text-red-300 text-xs rounded-xl">
                 {modalError}
               </div>
             )}
 
             <form onSubmit={handleVerifySubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-2">
                   Audit Decision *
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setVerifyAction('accept')}
-                    className={`py-2.5 px-3 rounded-xl border text-xs font-bold flex items-center justify-center transition ${
+                    className={`py-2.5 px-3 rounded-xl border text-xs font-black flex items-center justify-center transition ${
                       verifyAction === 'accept'
-                        ? 'bg-blue-50 border-blue-500 text-blue-800 ring-2 ring-blue-500'
-                        : 'bg-slate-50 border-slate-200 text-slate-600'
+                        ? 'bg-[#CCFF00] text-black border-[#CCFF00]'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400'
                     }`}
                   >
-                    <CheckCircle2 className="w-4 h-4 mr-1.5 text-blue-600" />
+                    <CheckCircle2 className="w-4 h-4 mr-1.5" />
                     Accept Issue
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setVerifyAction('reject')}
-                    className={`py-2.5 px-3 rounded-xl border text-xs font-bold flex items-center justify-center transition ${
+                    className={`py-2.5 px-3 rounded-xl border text-xs font-black flex items-center justify-center transition ${
                       verifyAction === 'reject'
-                        ? 'bg-red-50 border-red-500 text-red-800 ring-2 ring-red-500'
-                        : 'bg-slate-50 border-slate-200 text-slate-600'
+                        ? 'bg-red-500/20 text-red-400 border-red-500'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400'
                     }`}
                   >
-                    <XCircle className="w-4 h-4 mr-1.5 text-red-600" />
+                    <XCircle className="w-4 h-4 mr-1.5" />
                     Reject Issue
                   </button>
                 </div>
@@ -524,49 +513,47 @@ const AdminDashboard = () => {
 
               {verifyAction === 'reject' && (
                 <div>
-                  <label className="block text-xs font-bold text-red-700 uppercase tracking-wider mb-1">
-                    Rejection Reason (Required) *
+                  <label className="block text-[11px] font-extrabold text-red-400 uppercase tracking-wider mb-1">
+                    Rejection Reason *
                   </label>
                   <textarea
                     rows="2"
                     required
                     value={rejectionReason}
                     onChange={(e) => setRejectionReason(e.target.value)}
-                    placeholder="e.g. Duplicate report, private property issue, or insufficient evidence..."
-                    className="w-full p-2.5 bg-red-50/50 border border-red-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500"
+                    placeholder="e.g. Duplicate report..."
+                    className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-red-500"
                   ></textarea>
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Verification Audit Notes
+                <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-1">
+                  Audit Notes
                 </label>
                 <input
                   type="text"
                   value={verificationNotes}
                   onChange={(e) => setVerificationNotes(e.target.value)}
-                  placeholder="e.g. Physically inspected by Councillor ward team on site."
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-purple-500"
+                  placeholder="e.g. Physically inspected..."
+                  className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                 />
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100">
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-zinc-900">
                 <button
                   type="button"
                   onClick={() => setVerifyModalComplaint(null)}
-                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl"
+                  className="px-4 py-2 text-xs font-bold text-zinc-400 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`px-5 py-2.5 text-xs font-bold text-white rounded-xl shadow-md ${
-                    verifyAction === 'accept' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-red-600 hover:bg-red-700'
-                  }`}
+                  className="px-5 py-2.5 text-xs font-black text-black bg-[#CCFF00] hover:bg-[#FFFF00] rounded-xl shadow-md"
                 >
-                  {isSubmitting ? 'Saving...' : `Confirm ${verifyAction === 'accept' ? 'Acceptance' : 'Rejection'}`}
+                  {isSubmitting ? 'Saving...' : 'Confirm Decision'}
                 </button>
               </div>
             </form>
@@ -576,38 +563,35 @@ const AdminDashboard = () => {
 
       {/* ASSIGN DEPARTMENT MODAL */}
       {assignModalComplaint && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-zinc-950 rounded-3xl max-w-lg w-full p-6 border border-[#CCFF00]/30 shadow-2xl relative text-white">
             <button
               onClick={() => setAssignModalComplaint(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 bg-slate-100 rounded-full"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white p-1 bg-zinc-900 rounded-full"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-lg font-extrabold text-slate-900 mb-1 flex items-center">
-              <Building2 className="w-5 h-5 mr-2 text-purple-600" />
-              Assign to Municipal Department
-            </h3>
-            <p className="text-xs text-slate-500 mb-4">
-              Forward complaint <span className="font-bold text-slate-800">"{assignModalComplaint.title}"</span> to responsible team.
+            <h3 className="text-lg font-black text-white mb-1 uppercase">Assign Department</h3>
+            <p className="text-xs text-zinc-400 mb-4">
+              Assign complaint <span className="font-bold text-white">"{assignModalComplaint.title}"</span>.
             </p>
 
             {modalError && (
-              <div className="mb-3 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+              <div className="mb-3 p-3 bg-red-500/10 border border-red-500/30 text-red-300 text-xs rounded-xl">
                 {modalError}
               </div>
             )}
 
             <form onSubmit={handleAssignSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-1">
                   Select Department *
                 </label>
                 <select
                   value={selectedDeptId}
                   onChange={(e) => setSelectedDeptId(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-purple-500"
+                  className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                 >
                   <option value="">-- Choose Municipal Department --</option>
                   {departments.map((dept) => (
@@ -619,13 +603,13 @@ const AdminDashboard = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-extrabold text-zinc-400 uppercase tracking-wider mb-1">
                   Work Priority
                 </label>
                 <select
                   value={assignPriority}
                   onChange={(e) => setAssignPriority(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-purple-500"
+                  className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:ring-2 focus:ring-[#CCFF00]"
                 >
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
@@ -634,20 +618,20 @@ const AdminDashboard = () => {
                 </select>
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100">
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-zinc-900">
                 <button
                   type="button"
                   onClick={() => setAssignModalComplaint(null)}
-                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl"
+                  className="px-4 py-2 text-xs font-bold text-zinc-400 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2.5 text-xs font-bold text-white bg-purple-700 hover:bg-purple-800 rounded-xl shadow-md"
+                  className="px-5 py-2.5 text-xs font-black text-black bg-[#CCFF00] hover:bg-[#FFFF00] rounded-xl shadow-md"
                 >
-                  {isSubmitting ? 'Assigning...' : 'Dispatch to Department'}
+                  {isSubmitting ? 'Assigning...' : 'Dispatch Department'}
                 </button>
               </div>
             </form>
@@ -655,34 +639,29 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* CREATE NEW DEPARTMENT MODAL */}
+      {/* CREATE DEPARTMENT MODAL */}
       {showAddDeptModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-zinc-950 rounded-3xl max-w-md w-full p-6 border border-[#CCFF00]/30 shadow-2xl relative text-white">
             <button
               onClick={() => setShowAddDeptModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 bg-slate-100 rounded-full"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white p-1 bg-zinc-900 rounded-full"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-lg font-extrabold text-slate-900 mb-1 flex items-center">
-              <PlusCircle className="w-5 h-5 mr-2 text-purple-600" />
-              Add Department Account
-            </h3>
-            <p className="text-xs text-slate-500 mb-4">
-              Create a new municipal department and login credentials for their official.
-            </p>
+            <h3 className="text-lg font-black text-white mb-1 uppercase">Add Department Account</h3>
+            <p className="text-xs text-zinc-400 mb-4">Create department and official login credentials.</p>
 
             {modalError && (
-              <div className="mb-3 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+              <div className="mb-3 p-3 bg-red-500/10 border border-red-500/30 text-red-300 text-xs rounded-xl">
                 {modalError}
               </div>
             )}
 
             <form onSubmit={handleCreateDept} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                <label className="block text-[10px] font-extrabold text-zinc-400 uppercase mb-1">
                   Department Name *
                 </label>
                 <input
@@ -690,13 +669,13 @@ const AdminDashboard = () => {
                   required
                   value={deptName}
                   onChange={(e) => setDeptName(e.target.value)}
-                  placeholder="e.g. Health & Sanitation Dept"
-                  className="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-xs"
+                  placeholder="Health & Sanitation Dept"
+                  className="w-full p-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                <label className="block text-[10px] font-extrabold text-zinc-400 uppercase mb-1">
                   Department Code *
                 </label>
                 <input
@@ -704,14 +683,14 @@ const AdminDashboard = () => {
                   required
                   value={deptCode}
                   onChange={(e) => setDeptCode(e.target.value)}
-                  placeholder="e.g. HLS"
-                  className="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-xs uppercase"
+                  placeholder="HLS"
+                  className="w-full p-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white uppercase"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
-                  Official Email (For Department Login) *
+                <label className="block text-[10px] font-extrabold text-zinc-400 uppercase mb-1">
+                  Official Email *
                 </label>
                 <input
                   type="email"
@@ -719,12 +698,12 @@ const AdminDashboard = () => {
                   value={deptEmail}
                   onChange={(e) => setDeptEmail(e.target.value)}
                   placeholder="health@civic.com"
-                  className="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-xs"
+                  className="w-full p-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                <label className="block text-[10px] font-extrabold text-zinc-400 uppercase mb-1">
                   Official Password *
                 </label>
                 <input
@@ -733,35 +712,22 @@ const AdminDashboard = () => {
                   value={deptPassword}
                   onChange={(e) => setDeptPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-xs"
+                  className="w-full p-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white"
                 />
               </div>
 
-              <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
-                  Description
-                </label>
-                <textarea
-                  rows="2"
-                  value={deptDesc}
-                  onChange={(e) => setDeptDesc(e.target.value)}
-                  placeholder="Duties and responsibilities..."
-                  className="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-xs"
-                ></textarea>
-              </div>
-
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100">
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-zinc-900">
                 <button
                   type="button"
                   onClick={() => setShowAddDeptModal(false)}
-                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl"
+                  className="px-4 py-2 text-xs font-bold text-zinc-400 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 text-xs font-bold text-white bg-purple-700 hover:bg-purple-800 rounded-xl shadow-md"
+                  className="px-5 py-2 text-xs font-black text-black bg-[#CCFF00] hover:bg-[#FFFF00] rounded-xl"
                 >
                   {isSubmitting ? 'Creating...' : 'Create Account'}
                 </button>
@@ -771,43 +737,40 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* DETAIL MODAL WITH IMAGE EXPAND & GOOGLE MAPS */}
+      {/* DETAIL MODAL */}
       {detailModalComplaint && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-zinc-950 rounded-3xl max-w-xl w-full p-6 border border-[#CCFF00]/30 shadow-2xl relative max-h-[90vh] overflow-y-auto text-white">
             <button
               onClick={() => setDetailModalComplaint(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 bg-slate-100 rounded-full"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white p-1 bg-zinc-900 rounded-full"
             >
               <X className="w-5 h-5" />
             </button>
 
             <StatusBadge status={detailModalComplaint.status} />
-            <h3 className="text-xl font-extrabold text-slate-900 mt-2">{detailModalComplaint.title}</h3>
-            <p className="text-xs text-slate-600 mt-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <h3 className="text-xl font-black text-white mt-2">{detailModalComplaint.title}</h3>
+            <p className="text-xs text-zinc-300 mt-2 bg-zinc-900 p-3 rounded-xl border border-zinc-800">
               {detailModalComplaint.description}
             </p>
 
-            <div className="my-3">
-              <span className="text-xs font-bold text-slate-700 mr-2">Location:</span>
+            <div className="my-3 text-xs text-zinc-400">
+              <span className="font-bold text-white mr-2">Location:</span>
               <GoogleMapLink location={detailModalComplaint.location} />
             </div>
 
-            {/* Evidence Photos */}
-            {detailModalComplaint.evidencePhotos && detailModalComplaint.evidencePhotos.length > 0 && (
-              <div className="my-4">
-                <h4 className="text-xs font-bold text-slate-700 uppercase mb-2">Evidence Photos (Click to Enlarge):</h4>
-                <div className="flex gap-2 overflow-x-auto">
-                  {detailModalComplaint.evidencePhotos.map((photo, i) => (
-                    <img
-                      key={i}
-                      src={photo}
-                      alt="Evidence"
-                      onClick={() => setActiveImagePreview(photo)}
-                      className="w-20 h-20 object-cover rounded-xl border border-slate-200 cursor-pointer hover:opacity-80 transition"
-                    />
-                  ))}
-                </div>
+            {detailModalComplaint.completionPhoto && (
+              <div className="my-4 p-4 bg-zinc-900 border border-[#CCFF00]/30 rounded-2xl">
+                <h4 className="text-xs font-extrabold text-[#CCFF00] uppercase mb-2 flex items-center">
+                  <CheckCircle2 className="w-4 h-4 mr-1 text-[#CCFF00]" />
+                  Department Work Completion Photo Proof
+                </h4>
+                <img
+                  src={detailModalComplaint.completionPhoto}
+                  alt="Work Completion"
+                  onClick={() => setActiveImagePreview(detailModalComplaint.completionPhoto)}
+                  className="w-full max-h-56 object-cover rounded-xl border border-zinc-800 cursor-pointer hover:opacity-90 transition"
+                />
               </div>
             )}
 
@@ -816,11 +779,7 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* Full Resolution Image Lightbox Modal */}
-      <ImageModal
-        imageUrl={activeImagePreview}
-        onClose={() => setActiveImagePreview(null)}
-      />
+      <ImageModal imageUrl={activeImagePreview} onClose={() => setActiveImagePreview(null)} />
     </SidebarLayout>
   );
 };
