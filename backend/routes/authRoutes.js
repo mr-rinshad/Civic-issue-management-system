@@ -20,5 +20,5 @@ router.put('/password', protect, updatePassword);
 // Admin Citizen Management Routes
 router.get('/citizens', protect, authorize('admin'), getAllCitizens);
 router.put('/citizens/:id/suspend', protect, authorize('admin'), toggleUserSuspension);
-
+// Add more admin routes as needed
 module.exports = router;
