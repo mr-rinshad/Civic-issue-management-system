@@ -15,7 +15,6 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
 
-    // Validation
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -40,7 +39,6 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Citizen accounts are created with role 'user'
     const user = await User.create({
       name,
       email: email.toLowerCase(),
@@ -69,7 +67,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Universal Login for All Roles (User, Admin, Department)
+// @desc    Universal Login for All Roles
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = async (req, res) => {
@@ -88,6 +86,14 @@ const loginUser = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password',
+      });
+    }
+
+    // Check if account is suspended by Admin
+    if (user.isSuspended) {
+      return res.status(403).json({
+        success: false,
+        message: 'Your account has been suspended by the Councillor Admin. Please contact municipal support.',
       });
     }
 
@@ -112,6 +118,7 @@ const loginUser = async (req, res) => {
         phone: user.phone,
         role: user.role,
         departmentName: user.departmentName || '',
+        isSuspended: user.isSuspended || false,
       },
     });
   } catch (error) {
@@ -119,7 +126,6 @@ const loginUser = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Server error during login' });
   }
 };
-
 
 // @desc    Get Current Logged in User Profile
 // @route   GET /api/auth/me
@@ -136,8 +142,145 @@ const getMe = async (req, res) => {
   }
 };
 
+// @desc    Update Profile Details (Name, Phone)
+// @route   PUT /api/auth/profile
+// @access  Private
+const updateProfile = async (req, res) => {
+  try {
+    const { name, phone } = req.body;
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (name) user.name = name;
+    if (phone !== undefined) user.phone = phone;
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        departmentName: user.departmentName || '',
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Error updating profile' });
+  }
+};
+
+// @desc    Update Password
+// @route   PUT /api/auth/password
+// @access  Private
+const updatePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide both current password and new password',
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'New password must be at least 6 characters long',
+      });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        success: false,
+        message: 'Current password is incorrect',
+      });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Password updated successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Error updating password' });
+  }
+};
+
+// @desc    Get All Registered Citizens (Admin Only)
+// @route   GET /api/auth/citizens
+// @access  Private (Admin)
+const getAllCitizens = async (req, res) => {
+  try {
+    const citizens = await User.find({ role: 'user' })
+      .select('-password')
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      count: citizens.length,
+      citizens,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Error fetching citizens list' });
+  }
+};
+
+// @desc    Suspend or Unsuspend Citizen (Admin Only)
+// @route   PUT /api/auth/citizens/:id/suspend
+// @access  Private (Admin)
+const toggleUserSuspension = async (req, res) => {
+  try {
+    const { isSuspended } = req.body;
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Citizen account not found' });
+    }
+
+    if (user.role === 'admin') {
+      return res.status(400).json({ success: false, message: 'Cannot suspend Admin account' });
+    }
+
+    user.isSuspended = isSuspended !== undefined ? isSuspended : !user.isSuspended;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: `Citizen account ${user.isSuspended ? 'suspended' : 'reactivated'} successfully`,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        isSuspended: user.isSuspended,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Error toggling user suspension' });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getMe,
+  updateProfile,
+  updatePassword,
+  getAllCitizens,
+  toggleUserSuspension,
 };
